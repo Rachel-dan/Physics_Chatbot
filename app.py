@@ -432,7 +432,14 @@ from flask_cors import CORS
 # db = SQLAlchemy(app)
 
 app = Flask(__name__)
-CORS(app)
+
+origins = [
+    "http://localhost:5000",
+    "https://physicschatbot.netlify.app",
+    "https://physics-chatbot-frontend.onrender.com"  # <-- Add your new Render frontend URL here
+]
+CORS(app, origins=origins)
+=
 # +++ START NEW DATABASE CONFIG +++
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
