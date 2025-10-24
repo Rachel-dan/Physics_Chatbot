@@ -1,0 +1,84 @@
+<!-- templates/admin.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/admin.css">
+    <!-- This script is for the charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- ======================================================= -->
+        <!-- THIS IS THE CRUCIAL SECTION THAT ADDS THE BUTTONS      -->
+        <!-- ======================================================= -->
+        <header class="dashboard-header">
+            <h1>Admin Dashboard</h1>
+            <nav class="header-nav">
+                <a href="/" class="nav-link">Go to Chatbot</a>
+                <button id="admin-logout-btn" class="logout-btn">Logout</button>
+            </nav>
+        </header>
+        <!-- ======================================================= -->
+
+        <main class="dashboard-main">
+            <div class="stats-grid">
+                <!-- Row 1: Core Metrics -->
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <p id="total-users">Loading...</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Conversations</h3>
+                    <p id="total-conversations">Loading...</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Messages</h3>
+                    <p id="total-messages">Loading...</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Avg. Session Duration</h3>
+                    <p id="avg-session-duration">Loading...</p>
+                </div>
+
+                <!-- Row for Charts -->
+                <div class="stat-card large-card chart-container">
+                    <h3>Chat Activity (Last 7 Days)</h3>
+                    <canvas id="activity-chart"></canvas>
+                </div>
+                <div class="stat-card large-card chart-container">
+                    <h3>Session Length Distribution</h3>
+                    <canvas id="session-length-chart"></canvas>
+                </div>
+
+                <!-- +++ NEW: Chart for User Feedback +++ -->
+                <div class="stat-card large-card chart-container">
+                    <h3>User Feedback Distribution</h3>
+                    <canvas id="feedback-chart"></canvas>
+                </div>
+
+                <!-- Row for Top Users Table -->
+                <div class="stat-card large-card full-width">
+                    <h3>Most Active Users (by time spent)</h3>
+                    <table id="top-users-table">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Total Time Spent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be inserted by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/admin.js"></script>
+</body>
+</html>
