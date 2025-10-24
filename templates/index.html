@@ -1,5 +1,4 @@
 <!-- templates/index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,91 +8,73 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <!-- Only show the main app if the user is authenticated -->
-    {% if current_user.is_authenticated %}
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <button id="new-chat-btn">＋ New Chat</button>
+
+    <!-- This is the main application view, hidden by default -->
+    <div id="chat-app" class="hidden">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <button id="new-chat-btn">＋ New Chat</button>
+            </div>
+            <div class="sidebar-content">
+                <ul id="past-chats-list"></ul>
+            </div>
+            <div class="sidebar-support">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="tel:+1234567890">📞 Call Us</a></li>
+                    <li><a href="mailto:support@physicstutor.com">📧 Email Us</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-footer">
+                <span id="welcome-message"></span>
+                <div class="footer-buttons">
+                    <a href="/admin.html" id="admin-link-btn" class="hidden">Dashboard</a>
+                    <button id="logout-btn">Logout</button>
+                </div>
+            </div>
         </div>
-        <div class="sidebar-content">
-            <ul id="past-chats-list">
-                <!-- Past chats will be loaded here by JavaScript -->
-            </ul>
-        </div>
-        
-        <!-- +++ NEW: CUSTOMER SUPPORT SECTION +++ -->
-        <div class="sidebar-support">
-            <h4>Support</h4>
-            <ul>
-                <!-- 
-                  Actionable links:
-                  - "tel:" opens the default phone/dialing app.
-                  - "mailto:" opens the default email client.
-                  - Replace the number and email with your actual contact info.
-                -->
-                <li><a href="tel:9100225533">📞 Call Us</a></li>
-                <li><a href="mailto:rachelrejoice710@gmail.com">📧 Email Us</a></li>
-            </ul>
-        </div>
-        
-        <div class="sidebar-footer">
-            <span>Welcome, {{ current_user.username }}</span>
-            <div class="footer-buttons">
-                <!-- NEW: Conditionally show Admin Dashboard link -->
-                {% if current_user.is_admin %}
-                    <a href="/admin" id="admin-link-btn">Dashboard</a>
-                {% endif %}
-                <button id="logout-btn">Logout</button>
+
+        <div class="main-chat">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>AI Physics Tutor</h2>
+                </div>
+                <div class="chat-window" id="chat-window"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="user-input" placeholder="Type or click the mic to speak..." autocomplete="off">
+                    <div class="voice-toggle-container">
+                        <input type="checkbox" id="voice-toggle" title="Toggle voice output">
+                        <label for="voice-toggle">🔇</label>
+                    </div>
+                    <button id="mic-btn" class="input-button">🎤</button>
+                    <button id="send-btn" class="input-button">Send</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="main-chat">
-        <div class="chat-container">
-            <div class="chat-header">
-                <h2>AI Physics Tutor</h2>
-            </div>
-            <div class="chat-window" id="chat-window">
-                <div class="message bot-message">
-                    <p>Hello! Start a new conversation or select a previous one.</p>
-                </div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" id="user-input" placeholder="Type or click the mic to speak..." autocomplete="off">
-                <div class="voice-toggle-container">
-                    <input type="checkbox" id="voice-toggle" title="Toggle voice output">
-                    <label for="voice-toggle">🔇</label>
-                </div>
-                <button id="mic-btn" class="input-button">🎤</button>
-                <button id="send-btn" class="input-button">Send</button>
+    <!-- This is the Login/Register view, shown by default -->
+    <div id="auth-view">
+        <div class="auth-modal">
+            <div class="auth-form-container">
+                <h2 id="auth-title">Login</h2>
+                <p id="auth-error" class="error-message"></p>
+                <form id="login-form">
+                    <input type="text" id="login-username" placeholder="Username" required autocomplete="off">
+                    <input type="password" id="login-password" placeholder="Password" required autocomplete="new-password">
+                    <button type="submit">Login</button>
+                </form>
+                <form id="register-form" class="hidden">
+                    <input type="text" id="register-username" placeholder="Username" required autocomplete="off">
+                    <input type="password" id="register-password" placeholder="Password" required autocomplete="new-password">
+                    <button type="submit">Register</button>
+                </form>
+                <p>
+                    <a href="#" id="toggle-form-link">Need to create an account?</a>
+                </p>
             </div>
         </div>
     </div>
-
-    {% else %}
-    <!-- Show the login/register modal if not authenticated -->
-    <div class="auth-modal">
-        <div class="auth-form-container">
-            <h2 id="auth-title">Login</h2>
-            <p id="auth-error" class="error-message"></p>
-            <form id="login-form">
-                <!-- UPDATED: Added autocomplete attributes -->
-                <input type="text" id="login-username" placeholder="Username" required autocomplete="off">
-                <input type="password" id="login-password" placeholder="Password" required autocomplete="new-password">
-                <button type="submit">Login</button>
-            </form>
-            <form id="register-form" class="hidden">
-                 <!-- UPDATED: Added autocomplete attributes -->
-                <input type="text" id="register-username" placeholder="Username" required autocomplete="off">
-                <input type="password" id="register-password" placeholder="Password" required autocomplete="new-password">
-                <button type="submit">Register</button>
-            </form>
-            <p>
-                <a href="#" id="toggle-form-link">Need to create an account?</a>
-            </p>
-        </div>
-    </div>
-    {% endif %}
 
     <script src="/static/script.js"></script>
 </body>

@@ -580,9 +580,16 @@ def update_user_session(user_id):
 
 
 # --- Application Routes ---
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/api/check_auth')
+def check_auth():
+    if current_user.is_authenticated:
+        return jsonify({
+            'logged_in': True,
+            'username': current_user.username,
+            'is_admin': current_user.is_admin
+        })
+    else:
+        return jsonify({'logged_in': False})
 
 # --- ADMIN DASHBOARD ROUTES ---
 def admin_required(f):
