@@ -193,6 +193,7 @@
 // static/admin.js
 
 // Store chart instances to prevent re-creation issues
+const API_URL = 'https://physics-chatbot-bd3o.onrender.com'; // <-- IMPORTANT: Use your actual Render URL
 let activityChartInstance = null;
 let sessionLengthChartInstance = null;
 let feedbackChartInstance = null; // +++ NEW: Instance for the feedback chart
@@ -206,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('admin-logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', async () => {
-            await fetch('/logout');
+            await fetch(`${API_URL}/logout`);
             window.location.href = '/';
         });
     }
@@ -214,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchAdminStats() {
     try {
-        const response = await fetch('/api/admin/stats');
+        const response = await fetch(`${API_URL}/api/admin/stats`);
         if (!response.ok) throw new Error('Failed to fetch basic stats');
         const stats = await response.json();
         updateDashboard(stats);
@@ -225,7 +226,7 @@ async function fetchAdminStats() {
 
 async function fetchAdminAnalytics() {
     try {
-        const response = await fetch('/api/admin/analytics');
+        const response = await fetch(`${API_URL}/api/admin/analytics`);
         if (!response.ok) throw new Error('Failed to fetch analytics');
         const analytics = await response.json();
         

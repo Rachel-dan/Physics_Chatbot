@@ -2,6 +2,7 @@
 // static/script.js
 
 // This function will run for both authenticated and unauthenticated users
+const API_URL = 'https://physics-chatbot-bd3o.onrender.com';
 document.addEventListener('DOMContentLoaded', () => {
 
     // Check if the user is logged in by seeing if the chat container exists
@@ -44,7 +45,7 @@ function setupAuthForms() {
         const username = document.getElementById('login-username').value;
         const password = document.getElementById('login-password').value;
 
-        const response = await fetch('/login', {
+        const response = await fetch(`${API_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -69,7 +70,7 @@ function setupAuthForms() {
         const username = document.getElementById('register-username').value;
         const password = document.getElementById('register-password').value;
 
-        const response = await fetch('/register', {
+        const response = await fetch(`${API_URL}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
@@ -106,7 +107,7 @@ function setupChatApplication() {
     // --- Core Chat Management Functions ---
     async function loadPastChats() {
         try {
-            const response = await fetch('/chats');
+            const response = await fetch(`${API_URL}/chats`);
             if (response.status === 401) window.location.reload();
             const chats = await response.json();
 
@@ -145,7 +146,7 @@ function setupChatApplication() {
 
     async function loadSpecificChat(chatId) {
         try {
-            const response = await fetch(`/chats/${chatId}`);
+            const response = await fetch(`${API_URL}/chats/${chatId}`);
             if(response.status === 401) window.location.reload();
             const messages = await response.json();
 
@@ -172,7 +173,7 @@ function setupChatApplication() {
     newChatBtn.addEventListener('click', startNewChat);
 
     logoutBtn.addEventListener('click', async () => {
-        await fetch('/logout');
+        await fetch(`${API_URL}/logout`);
         window.location.reload();
     });
 
@@ -180,7 +181,7 @@ function setupChatApplication() {
         const newTitle = prompt("Enter a new name for the chat:", currentTitle);
         if (newTitle && newTitle.trim() !== '' && newTitle !== currentTitle) {
             try {
-                const response = await fetch(`/rename_chat/${chatId}`, {
+                const response = await fetch(`${API_URL}/rename_chat/${chatId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title: newTitle.trim() })
@@ -207,7 +208,7 @@ function setupChatApplication() {
         addMessage('Thinking...', 'bot', false, null);
 
         try {
-            const response = await fetch('/ask', {
+            const response = await fetch(`${API_URL}/ask`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: message, chat_id: currentChatId })
@@ -267,7 +268,7 @@ function setupChatApplication() {
             const messageId = button.dataset.messageId;
             const feedbackValue = parseInt(button.dataset.feedback, 10);
             try {
-                const response = await fetch('/feedback', {
+                const response = await fetch(`${API_URL}/feedback`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message_id: messageId, feedback_value: feedbackValue })
@@ -345,7 +346,7 @@ function setupChatApplication() {
                     const formData = new FormData(); 
                     formData.append('audio_data', audioBlob, 'recording.webm'); 
                     try { 
-                        const response = await fetch('/transcribe', { method: 'POST', body: formData }); 
+                        const response = await fetch(`${API_URL}/transcribe`, { method: 'POST', body: formData }); 
                         const data = await response.json(); 
                         userInput.value = data.transcription || ''; 
                     } catch (error) { 
