@@ -439,7 +439,7 @@ origins = [
     "https://physics-chatbot-frontend.onrender.com"  # <-- Add your new Render frontend URL here
 ]
 CORS(app, origins=origins)
-=
+
 # +++ START NEW DATABASE CONFIG +++
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
